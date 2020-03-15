@@ -70,18 +70,27 @@ router.post("/contact", async (req, res) => {
 });
 
 //delete contact from the database
-router.delete("/contact/:ID", (req, res, next) => {
-  console.log(req.params.ID);
+router.delete("/contact/:ID", (req, res) => {
+  try {
+    console.log("ID Passed: " + req.params.ID);
 
-  Contact.findOne({ ID: req.params.ID }, (error, result) => {
-    if (!error) {
-      console.log(result);
-      result.remove();
-      res.json({ code: "00", message: "Successful" });
-    } else {
-      res.json({ code: "02", message: error.message });
-    }
-  });
+    Contact.findOne({ ID: req.params.ID }, (error, result) => {
+      if (!error) {
+        console.log(result);
+        if (result != null) {
+          result.remove();
+          res.json({ code: "00", message: "Successful" });
+        } else {
+          res.json({ code: "01", message: "Contact Already Deleted" });
+        }
+      } else {
+        res.json({ code: "02", message: error.message });
+      }
+    });
+  } catch (error) {
+    console.log("Error Occurred while deleting: " + error);
+    res.json({ code: "99", message: error });
+  }
 });
 
 module.exports = router;
