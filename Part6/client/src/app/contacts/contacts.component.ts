@@ -21,6 +21,12 @@ export class ContactsComponent implements OnInit {
     console.log("It got here");
   }
 
+  ngOnInit(): void {
+    this.contactService
+      .getContacts()
+      .subscribe(contacts => (this.contacts = contacts));
+  }
+
   addContact(): void {
     console.log("Entered Add Contact Method");
     // tslint:disable-next-line: prefer-const
@@ -37,6 +43,9 @@ export class ContactsComponent implements OnInit {
       console.log("Added new contact observer: " + data);
     });
     this.contacts.push(newContact);
+    this.contactService
+      .getContacts()
+      .subscribe(contacts => (this.contacts = contacts));
   }
 
   deleteContact(contactID: string): void {
@@ -46,11 +55,5 @@ export class ContactsComponent implements OnInit {
     this.contactService.deleteContact(contactID).subscribe((data: string) => {
       console.log("Data: [" + data + "]");
     });
-  }
-
-  ngOnInit(): void {
-    this.contactService
-      .getContacts()
-      .subscribe(contacts => (this.contacts = contacts));
   }
 }
