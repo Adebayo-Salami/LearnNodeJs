@@ -1,0 +1,24 @@
+<h1>Courses</h1>
+<a href="/course/add">ADD NEW COURSE</a>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Course Fee</th>
+        <th>Course Duration</th>
+        <th></th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td>{{this.courseID}}</td>
+        <td>{{this.courseName}}</td>
+        <td>{{this.courseFee}}</td>
+        <td>{{this.courseDuration}}</td>
+        <td>
+            <form method="POST" action="/course/delete">
+                <button name="docID" value="{{this.courseID}}" formtarget="_top">DELETE</button>
+            </form>
+        </td>
+    </tr>
+    {{/each}}
+</table>
